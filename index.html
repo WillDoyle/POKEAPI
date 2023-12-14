@@ -5,20 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
+
     <script
       src="https://kit.fontawesome.com/5082f4a3a0.js"
       crossorigin="anonymous"
     ></script>
+    
   </head>
   <body>
     <header>
       <div class="search__wrapper">
+        <!-- <h1 class="pokemon__header">Search pokemon</h1> -->
+      
         <form class="searchbar__wrapper" onsubmit="searchPokemon(event)">
           <input
             class="player__input"
             type="text"
-            placeholder=" Search"
-            style="font-family: Arial, FontAwesome"
+            placeholder="Search for pokemon"
+            
           />
           <button class="btn search__btn" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -27,18 +31,37 @@
       </div>
     </header>
 
-    <div class="pokedex">
-      <div class="pokemon__wrapper">
+    <div class="filter__wrapper">
+
+      <h4>Sort by</h4>
+    <select class="filter__selector" name="" id="filter" onchange="filterPokemon(event)">
+      
+      <option value="LOW_TO_HIGH">Lowest Number</option>
+      <option value="HIGH_TO_LOW">Highest Number</option>
+      <option value="A-Z">A-Z</option>
+      <option value="Z-A">Z-A</option>
+    </select>
+
+
+    <div id="slider">
+    </div>
+
+  </div>
+
+
+    <div class="pokedex" id="pokedex">
+    </div>
+      <!-- <div class="pokemon__wrapper">
         <div class="pokemon__img--wrapper pixel-corners--wrapper">
           <div class="pokemon__img"></div>
         </div>
         <div class="pokemon__id"></div>
         <div class="pokemon__name"></div>
         <div class="type__wrapper">
-          <div class="pokemon__type--wrapper"></div>
-        </div>
+          <div class="pokemon__type--wrapper"></div> -->
+        
 
-        <h1 class="category__header">STATS</h1>
+        <!-- <h1 class="category__header">STATS</h1>
         <div class="stats__wrapper">
           <div class="stats__item hp" data-stat="HP"></div>
           <div class="stats__item attack" data-stat="ATK"></div>
@@ -47,8 +70,10 @@
           <div class="stats__item sd" data-stat="SpD"></div>
           <div class="stats__item speed" data-stat="SPD"></div>
         </div>
-      </div>
+      </div> -->
     </div>
+    
   </body>
+
   <script defer src="app.js"></script>
 </html>

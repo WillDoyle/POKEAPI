@@ -5,6 +5,31 @@ const pokemonImage = document.querySelector(".pokemon__img");
 const pokemonIDDiv = document.querySelector(".pokemon__id");
 const statsWrapper = document.querySelector(".stats__wrapper");
 
+let results;
+
+const pokedexContainer = document.getElementById("pokedex");
+
+const typeStyleMap = {
+  grass: "grass__style",
+  fire: "fire__style",
+  water: "water__style",
+  bug: "bug__style",
+  dark: "dark__style",
+  dragon: "dragon__style",
+  electric: "electric__style",
+  fairy: "fairy__style",
+  fighting: "fighting__style",
+  flying: "flying__style",
+  ghost: "ghost__style",
+  ground: "ground__style",
+  ice: "ice__style",
+  normal: "normal__style",
+  poison: "poison__style",
+  psychic: "psychic__style",
+  rock: "rock__style",
+  steel: "steel__style",
+};
+
 async function getPokemon(pokemonIdentifier) {
   const apiURL = `https://pokeapi.co/api/v2/pokemon/${pokemonIdentifier}/`;
 
@@ -26,11 +51,19 @@ async function getPokemon(pokemonIdentifier) {
 }
 
 function extractPokemonId(url) {
-  // Using a regular expression to match the end id
-  const match = url.match(/\/pokemon\/(\d+)\/$/);
+  // Check if url is defined
+  if (url) {
+    // console.log("URL:", url);
 
-  // Check if there is a match and return the captured group (end id)
-  return match ? match[1] : null;
+    // Using a regular expression to match the end id
+    const match = url.match(/\/pokemon\/(\d+)\/$/);
+
+    // Check if there is a match and return the captured group (end id)
+    return match ? match[1] : null;
+  } else {
+    console.log("URL is undefined or null");
+    return null;
+  }
 }
 
 async function getPokemonList() {
@@ -44,102 +77,202 @@ async function getPokemonList() {
     }
 
     const data = await response.json();
-
-    console.log("API Data:", data);
-    renderPokemonList(data);
+    results = data.results;
+    return data.results;
   } catch (error) {
     console.error("Fetch Error:", error);
     console.log("ERROR");
   }
 }
 
-getPokemonList();
-
-function renderPokemonList(data) {
-  data.results.map((item) => {
-    const pokemonId = extractPokemonId(item.url);
-    getPokemon(pokemonId);
+function renderPokemonList(pokemonList) {
+  pokemonList.forEach(async (pokemon) => {
+    const pokemonId = extractPokemonId(pokemon.url);
+    const pokemonData = await getPokemonData(pokemonId);
+    renderPokemon(pokemonData);
   });
 }
 
-// Keep track of the last created wrapper
-let lastPokemonWrapper;
+async function getPokemonData(pokemonId) {
+  const apiURL = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
 
-function renderPokemon(data) {
-  const pokemonName = data.name;
-  const pokemonImg = data.sprites.front_default;
-  const pokemonID = data.id;
+  try {
+    const response = await fetch(apiURL);
 
-  const pokemonWrapper = document.createElement("div");
-  pokemonWrapper.classList.add("pokemon--wrapper", "pixel-corners--wrapper");
-
-  const typeNames = data.types.map((type) => type.type.name);
-  let typeVar = "";
-  const typeStyleMap = {
-    grass: "grass__style",
-    fire: "fire__style",
-    water: "water__style",
-    bug: "bug__style",
-    dark: "dark__style",
-    dragon: "dragon__style",
-    electric: "electric__style",
-    fairy: "fairy__style",
-    fighting: "fighting__style",
-    flying: "flying__style",
-    ghost: "ghost__style",
-    ground: "ground__style",
-    ice: "ice__style",
-    normal: "normal__style",
-    poison: "poison__style",
-    psychic: "psychic__style",
-    rock: "rock__style",
-    steel: "steel__style",
-  };
-
-  for (let i = 0; i < typeNames.length; i++) {
-    if (typeStyleMap[typeNames[i]]) {
-      typeVar = typeStyleMap[typeNames[i]];
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    pokemonTypeWrapperDiv.innerHTML += `<h1 class="type__style ${typeVar}">${typeNames[
-      i
-    ].toUpperCase()}</h1>`;
-  }
+    const data = await response.json();
 
-  pokemonIDDiv.innerHTML = `<h1 class="pokemon__id">#${pokemonID}</h1>`;
+    // console.log("API Data:", data);
+    return data;
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    console.log("ERROR");
+  }
+}
+
+async function renderPokemonList(pokemonList) {
+  for (const pokemon of pokemonList) {
+    const pokemonId = extractPokemonId(pokemon.url);
+    const pokemonData = await getPokemonData(pokemonId); // Wait for the promise to be fulfilled
+    renderPokemon(pokemonData);
+  }
+}
+
+function renderPokemon(data) {
+  const pokemonWrapper = document.createElement("div");
+  pokemonWrapper.classList.add("pokemon__wrapper");
+
+  // Pokemon Name
+  const pokemonName = data.name;
+  const pokemonNameCapital =
+    pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1);
+  const pokemonNameDiv = document.createElement("div");
+  pokemonNameDiv.classList.add("pokemon__name");
+  pokemonNameDiv.innerHTML = `<h1 class="pokemon__header">${pokemonNameCapital}</h1>`;
+  pokemonWrapper.appendChild(pokemonNameDiv);
+
+  // Pokemon Img
+  const pokemonImg = data.sprites.front_default;
+  const pokemonImgDiv = document.createElement("div");
+  pokemonImgDiv.classList.add(
+    "pokemon__img--wrapper",
+    "pixel-corners--wrapper"
+  );
   pokemonImgDiv.innerHTML = `<img class="pokemon__img pixel-corners" src="${pokemonImg}" />`;
+  pokemonWrapper.appendChild(pokemonImgDiv);
 
-  for (let i = 0; i < statsWrapper.children.length; i++) {
-    statsWrapper.children[i].innerHTML = `${data.stats[i].base_stat} </div>`;
+  // Pokemon ID
+  const pokemonID = data.id;
+  const pokemonIDDiv = document.createElement("div");
+  pokemonIDDiv.classList.add("pokemon__id");
+  pokemonIDDiv.innerHTML = `<h1 class="pokemon__id">#${pokemonID}</h1>`;
+  pokemonWrapper.appendChild(pokemonIDDiv);
+
+  // Pokemon Types
+  const pokemonTypeWrapperDiv = document.createElement("div");
+  pokemonTypeWrapperDiv.classList.add("pokemon__type--wrapper");
+  const typeNames = data.types.map((type) => type.type.name);
+  typeNames.forEach((typeName) => {
+    const typeVar = typeStyleMap[typeName] || ""; // Use typeStyleMap from your existing code
+    pokemonTypeWrapperDiv.innerHTML += `<h1 class="type__style ${typeVar}">${typeName.toUpperCase()}</h1>`;
+  });
+  pokemonWrapper.appendChild(pokemonTypeWrapperDiv);
+
+  // // Stats
+  // const statsWrapper = document.createElement("div");
+  // statsWrapper.classList.add("stats__wrapper");
+  // const statLabels = ["HP", "ATK", "DEF", "SpA", "SpD", "SPD"];
+  // for (let i = 0; i < statLabels.length; i++) {
+  //   const statDiv = document.createElement("div");
+  //   statDiv.classList.add(`stats__item`, statLabels[i].toLowerCase());
+  //   statDiv.setAttribute("data-stat", statLabels[i]);
+  //   statDiv.innerHTML = `${data.stats[i].base_stat}`;
+  //   statsWrapper.appendChild(statDiv);
+  // }
+  // pokemonWrapper.appendChild(statsWrapper);
+
+  // Append the new pokemonWrapper to the pokedexContainer
+  pokedexContainer.appendChild(pokemonWrapper);
+}
+
+function removeAllPokemon() {
+  const pokemonWrappers = document.querySelectorAll(".pokemon__wrapper");
+
+  // Loop through each pokemonWrapper and remove it
+  pokemonWrappers.forEach((pokemonWrapper) => {
+    pokedexContainer.removeChild(pokemonWrapper);
+  });
+}
+
+function sortPokemonAlphabetically(pokemonList) {
+  // Create a shallow copy of the array before sorting
+  const copy = [...pokemonList];
+
+  return copy.sort((a, b) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    return nameA.localeCompare(nameB);
+  });
+}
+
+function sortPokemonBackwardsAlphabetically(results) {
+  // Create a shallow copy of the array before sorting
+  const copy = [...results];
+
+  return copy.sort((b, a) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    return nameA.localeCompare(nameB);
+  });
+}
+
+async function sortPokemonById(results, order) {
+  // For each pokemon in the list, get its id, search for it using its id and return the result in a const
+  const promises = results.map(async (pokemon) => {
+    const pokemonId = extractPokemonId(pokemon.url);
+    const pokemonData = await getPokemonData(pokemonId);
+
+    return pokemonData;
+  });
+
+  //Wait for all pokemon to be added to the list
+
+  const pokemonDataArray = await Promise.all(promises);
+
+  // Sort the array based on "id"
+  const sortedPokemonList = pokemonDataArray.sort((a, b) => {
+    if (order === "asc") {
+      return a.id - b.id;
+    } else {
+      return b.id - a.id;
+    }
+  });
+
+  return sortedPokemonList;
+}
+
+async function filterPokemon(event) {
+  removeAllPokemon();
+  const sort = event.target.value;
+
+  //Get pokemon list value
+
+  if (sort === "A-Z") {
+    const sortedPokemonList = sortPokemonAlphabetically(results);
+    console.log(results);
+
+    renderPokemonList(sortedPokemonList);
+  } else if (sort === "Z-A") {
+    const sortedPokemonList = sortPokemonBackwardsAlphabetically(results);
+    console.log(results);
+
+    renderPokemonList(sortedPokemonList);
+  } else if (sort === "LOW_TO_HIGH") {
+    // For each pokemon in the list (default is low to high id value order)
+    console.log(results);
+
+    for (const pokemon of results) {
+      const pokemonId = extractPokemonId(pokemon.url);
+      const pokemonData = await getPokemonData(pokemonId); // Wait for the promise to be fulfilled
+      renderPokemon(pokemonData);
+    }
+  } else if (sort === "HIGH_TO_LOW") {
+    //Call sort pokemon by id and await data from getPokemonList()
+    const sortedPokemonList = await sortPokemonById(results, "desc");
+    console.log(results);
+
+    //For each pokemon in the sorted list (high to low), render the pokemon
+    for (const pokemon of sortedPokemonList) {
+      renderPokemon(pokemon);
+    }
   }
-
-  const typeElement = document.querySelector(".type__style");
-  const computedStyle = window.getComputedStyle(typeElement);
-
-  const secondStyleClass = typeElement.classList.item(1);
-  if (pokemonImgDiv) {
-    pokemonImgDiv.style.backgroundColor = computedStyle.backgroundColor;
-  }
-  if (pokemonImage) {
-    pokemonImage.classList.add("show");
-  }
-
-  pokemonNameDiv.innerHTML = `<h1 class="pokemon__header">${
-    pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)
-  }</h1>`;
-
-  // Append the new pokemon wrapper after the last one
-  if (lastPokemonWrapper) {
-    document.body.insertBefore(pokemonWrapper, lastPokemonWrapper.nextSibling);
-  } else {
-    document.body.appendChild(pokemonWrapper);
-  }
-
-  // Update the last wrapper
-  lastPokemonWrapper = pokemonWrapper.cloneNode(true);
 }
 
 function searchPokemon(event) {
+  removeAllPokemon();
   event.preventDefault();
   const userInput = event.target[0].value.toLowerCase();
   console.log(event);
@@ -148,3 +281,15 @@ function searchPokemon(event) {
 
   getPokemon(userInput);
 }
+
+function renderPokemonListOnLoad() {
+  getPokemonList()
+    .then((pokemonList) => {
+      renderPokemonList(pokemonList);
+    })
+    .catch((error) => {
+      console.error("Error fetching initial Pokemon list:", error);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", renderPokemonListOnLoad);
