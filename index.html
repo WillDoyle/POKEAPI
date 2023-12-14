@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://kit.fontawesome.com/5082f4a3a0.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <div class="search__wrapper">
+        <form class="searchbar__wrapper" onsubmit="searchPokemon(event)">
+          <input
+            class="player__input"
+            type="text"
+            placeholder=" Search"
+            style="font-family: Arial, FontAwesome"
+          />
+          <button class="btn search__btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+      </div>
+    </header>
+
+    <div class="pokedex">
+      <div class="pokemon__wrapper">
+        <div class="pokemon__img--wrapper pixel-corners--wrapper">
+          <div class="pokemon__img"></div>
+        </div>
+        <div class="pokemon__id"></div>
+        <div class="pokemon__name"></div>
+        <div class="type__wrapper">
+          <div class="pokemon__type--wrapper"></div>
+        </div>
+
+        <h1 class="category__header">STATS</h1>
+        <div class="stats__wrapper">
+          <div class="stats__item hp" data-stat="HP"></div>
+          <div class="stats__item attack" data-stat="ATK"></div>
+          <div class="stats__item defense" data-stat="DEF"></div>
+          <div class="stats__item sa" data-stat="SpA"></div>
+          <div class="stats__item sd" data-stat="SpD"></div>
+          <div class="stats__item speed" data-stat="SPD"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script defer src="app.js"></script>
+</html>
