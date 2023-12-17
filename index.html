@@ -17,13 +17,18 @@
       <div class="search__wrapper">
         <!-- <h1 class="pokemon__header">Search pokemon</h1> -->
       
-        <form class="searchbar__wrapper" onsubmit="searchPokemon(event)">
+        <form autocomplete="off" class="searchbar__wrapper" onsubmit="searchPokemon(event)">
           <input
             class="player__input"
             type="text"
+            name="q"
+            id="q"
             placeholder="Search for pokemon"
+            contenteditable="true"
+            onKeyUp="showResults(this.value)"
             
           />
+          <div id="result"></div>
           <button class="btn search__btn" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
