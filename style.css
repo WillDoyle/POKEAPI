@@ -196,6 +196,12 @@ header {
   height: 100%;
 }
 
+option {
+  border: none;
+  outline: none;
+  margin: 0.5em;
+}
+
 .pixel-corners,
 .pixel-corners--wrapper {
   clip-path: polygon(
