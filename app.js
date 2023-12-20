@@ -4,8 +4,10 @@ const pokemonImgDiv = document.querySelector(".pokemon__img--wrapper");
 const pokemonImage = document.querySelector(".pokemon__img");
 const pokemonIDDiv = document.querySelector(".pokemon__id");
 const statsWrapper = document.querySelector(".stats__wrapper");
+let errorWrapper;
 
 let results;
+let pokemonNames = [];
 
 const pokedexContainer = document.getElementById("pokedex");
 
@@ -46,8 +48,16 @@ async function getPokemon(pokemonIdentifier) {
     renderPokemon(data);
   } catch (error) {
     console.error("Fetch Error:", error);
+    removeAllPokemon();
+    showError();
     console.log("ERROR");
   }
+}
+
+function showError() {
+  pokedexContainer.innerHTML = `<div class="error__wrapper"> <img class="error__img" src="./assets/pokeball.svg"> <h1 class="error__h1"> Could not find any pokemon related to your search.</h1> <h2 class="error__h2"> Please enter proper pokemon name or change filter <h2> </div>`;
+  errorWrapper = document.querySelector(".error__wrapper");
+  errorWrapper.style.display = "flex";
 }
 
 function extractPokemonId(url) {
@@ -66,8 +76,9 @@ function extractPokemonId(url) {
   }
 }
 
+//Gets list of 21 pokemon, called on page load
 async function getPokemonList() {
-  const apiURL = `https://pokeapi.co/api/v2/pokemon/?limit=20`;
+  const apiURL = `https://pokeapi.co/api/v2/pokemon/?limit=21`;
 
   try {
     const response = await fetch(apiURL);
@@ -78,6 +89,7 @@ async function getPokemonList() {
 
     const data = await response.json();
     results = data.results;
+    console.log(results);
     return data.results;
   } catch (error) {
     console.error("Fetch Error:", error);
@@ -85,14 +97,7 @@ async function getPokemonList() {
   }
 }
 
-function renderPokemonList(pokemonList) {
-  pokemonList.forEach(async (pokemon) => {
-    const pokemonId = extractPokemonId(pokemon.url);
-    const pokemonData = await getPokemonData(pokemonId);
-    renderPokemon(pokemonData);
-  });
-}
-
+//Gets pokemon data for each individual pokemon
 async function getPokemonData(pokemonId) {
   const apiURL = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
 
@@ -122,6 +127,9 @@ async function renderPokemonList(pokemonList) {
 }
 
 function renderPokemon(data) {
+  if (errorWrapper && errorWrapper !== null) {
+    errorWrapper.style.display = "none";
+  }
   const pokemonWrapper = document.createElement("div");
   pokemonWrapper.classList.add("pokemon__wrapper");
 
@@ -2095,16 +2103,35 @@ function autocompleteMatch(input) {
 
   var reg = new RegExp(input.toLowerCase());
 
-  return search_terms.filter(function (term) {
-    return (
-      term.toLowerCase().match(reg) &&
-      term.toLowerCase() !== input.toLowerCase()
-    );
-  });
+  return search_terms
+    .filter(function (term) {
+      return (
+        term.toLowerCase().match(reg) &&
+        term.toLowerCase() !== input.toLowerCase()
+      );
+    })
+    .sort(function (a, b) {
+      // Prioritize items that start with the input sequence
+      return a.toLowerCase().startsWith(input.toLowerCase()) ? -1 : 1;
+    });
+}
+
+document.getElementById("q").onblur = function () {
+  // Delay the hiding of results slightly to allow for a click on the results list
+  setTimeout(function () {
+    hideResults();
+  }, 200);
+};
+
+function hideResults() {
+  var resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = ""; // Clear the results
+  resultDiv.style.opacity = "0"; // Hide the result div
 }
 
 function showResults(val) {
   res = document.getElementById("result");
+  res.style.opacity = "100";
   res.innerHTML = "";
   let list = "";
   let terms = autocompleteMatch(val);
@@ -2119,6 +2146,65 @@ function showResults(val) {
   res.innerHTML = "<ul>" + list + "</ul>";
 }
 
+function refreshResults() {
+  removeAllPokemon();
+  getPokemonList()
+    .then((pokemonList) => {
+      renderPokemonList(pokemonList);
+    })
+    .catch((error) => {
+      console.error("Error fetching initial Pokemon list:", error);
+    });
+}
+
+let value1 = document.getElementById("value1");
+
+let value2 = document.getElementById("value2");
+
+const maxDifference = 20;
+
+async function updateRange() {
+  let currentValue = parseInt(singleRange.value, 10);
+  let newValue = currentValue + maxDifference;
+
+  // Ensure that the difference between the new value and current value is limited to a maximum of 60
+  if (newValue > parseInt(singleRange.max, 10)) {
+    singleRange.value = (
+      parseInt(singleRange.max, 10) - maxDifference
+    ).toString();
+  }
+
+  if (newValue > 1017) {
+    newValue = 1017;
+    currentValue -= maxDifference;
+  }
+
+  if (currentValue === 0) {
+    currentValue = 1;
+  }
+
+  // Update other UI elements or perform other actions as needed
+  // console.log(
+  //   `Current Value: ${Math.floor(currentValue)}, New Value: ${Math.floor(
+  //     newValue
+  //   )}`
+  // );
+  value1.innerHTML = currentValue;
+  value2.innerHTML = newValue;
+  removeAllPokemon();
+  for (let i = currentValue; i <= newValue; i++) {
+    const pokemonData = await getPokemonData(i); // Wait for the promise to be fulfilled
+    pokemonNames.push({
+      name: pokemonData.name,
+      url: `https://pokeapi.co/api/v2/pokemon/${pokemonData.id}/`,
+    });
+
+    renderPokemon(pokemonData);
+  }
+  console.log(pokemonNames);
+
+  results = pokemonNames;
+}
 // Function to update the input when a list item is clicked
 function updateInput(value) {
   document.getElementById("q").value = value;

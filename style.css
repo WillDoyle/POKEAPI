@@ -8,6 +8,40 @@
   color: #242424;
 }
 
+button {
+  transition: all 100ms ease-in-out;
+}
+button:active {
+  opacity: 0.5;
+  filter: brightness(50%);
+  transform: translateY(8px);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.error__img {
+  width: 100px;
+}
+
+.error__h1,
+.error__h2 {
+  margin: 0.5em 0em;
+  padding: 0em 3em;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.error__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 3em 0em;
+}
+
 body {
   background-color: #f6f8fc;
 }
@@ -19,9 +53,28 @@ h1 {
 
 header {
   flex-direction: column;
-  margin: 0em 0em 3em 0em;
+  margin: 0em 0em 8em 0em;
   /* background-image: url("./assets/pokmeon-banner.jpg");
   background-size: cover; */
+}
+
+input[type="range"] {
+  width: 200px;
+  margin: 10px 0;
+}
+
+.slider__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.slider__h3 {
+  font-size: 1em;
+  color: #242424a8;
+}
+
+.slider__h3:nth-child(2) {
+  right: 0;
 }
 
 .player__input {
@@ -32,12 +85,14 @@ header {
   font-weight: 600;
   font-size: 1em;
   font-family: "Open Sans", sans-serif;
-  color: #24242498;
+  color: #242424;
   transition: all 300ms ease-in-out;
 }
 
 .player__input::placeholder {
-  color: #2424245d;
+  color: #242424;
+  font-weight: 300;
+  font-size: 1em;
 }
 
 .player__input:focus {
@@ -54,11 +109,11 @@ header {
   border: none;
   padding: 0em 1em;
   border-radius: 4px;
-  border-radius: 15px;
-  height: 100px;
-  width: 800px;
-
-  border: 1px solid #2424240f;
+  border-radius: 50px;
+  height: 70px;
+  width: 400px;
+  border: 1px solid #fff;
+  background-color: #f6f8fc;
 
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
@@ -76,33 +131,172 @@ header {
   border-radius: 4px;
 }
 
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  position: fixed;
+
+  background: rgba(0, 0, 0, 0.749);
+  box-shadow: 0 0px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  padding: 1em;
+  z-index: 3;
+  animation: fadeIn 1s ease;
+}
+
+.nav__links {
+  display: flex;
+}
+
+a {
+  text-decoration: none;
+}
+
+.link__hover-effect--black:after,
+.link__hover-effect:after {
+  content: "";
+  position: absolute;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 50px;
+  width: 0%;
+  bottom: -3px;
+  right: 0;
+  transition: all 300ms ease;
+}
+
+.link__hover-effect:hover:after {
+  width: 100%;
+  left: 0;
+}
+
+.link__hover-effect--black:after {
+  background-color: #242424;
+}
+
+.nav__link--anchor {
+  color: #fff;
+
+  font-weight: 700;
+  font-family: "Open Sans";
+}
+
+.contact {
+  background-color: #fff;
+  color: #242424;
+  padding: 1em 2em;
+  border-radius: 50px;
+  font-size: 0.75em;
+  transition: all 300ms ease-in-out;
+  box-shadow: 0 0 1px 1px #242424;
+  overflow: hidden;
+}
+
+.contact:hover {
+  background-color: #242424;
+  color: #fff;
+  box-shadow: 0 0 1px 1px #fff;
+  cursor: not-allowed;
+}
+
+.nav__link {
+  position: relative;
+  text-decoration: none;
+  margin: 0em 1em;
+  list-style-type: none;
+  color: #fff;
+}
+
+.site__logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo__text {
+  font-family: "Open Sans";
+  font-weight: 600;
+  font-size: 1.25em;
+  color: #fff;
+  margin: 0.5em;
+}
+
+.home__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 300ms ease-in-out;
+}
+
+.home__link:hover {
+  opacity: 0.7;
+  transform: translateY(2px);
+}
+
+.logo {
+  height: 50px;
+  width: 50px;
+  filter: invert();
+}
+
 .search__btn {
-  background-color: transparent;
+  background-color: #fff;
   border: none;
   border-radius: 4px;
   margin: 8px 0;
   padding: 8px;
   height: 50px;
   width: 50px;
-  border-radius: 12px;
-  color: #24242417;
+  border-radius: 50px;
+  color: #ffffff;
   transition: all 300ms ease-in-out;
   align-self: right;
   cursor: pointer;
-  box-shadow: rgba(100, 100, 111, 0.4) 0px 7px 29px 0px;
+  box-shadow: rgba(100, 100, 100, 0.4) 0px 7px 29px 0px;
 }
 
 .search__btn .fa-solid {
-  color: #24242470;
+  color: #242424;
 }
 
 .search__wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   padding: 3em 0em;
+  margin-top: 3em;
   height: 300px;
+}
+
+.header__background {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 40vh;
+  z-index: -1;
+
+  overflow: hidden;
+}
+
+.background {
+  width: 100%;
+  filter: brightness(70%) blur(3px);
+  background-size: cover;
 }
 
 /* POKEMON */
@@ -138,9 +332,33 @@ header {
 .filter__wrapper {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   max-width: 880px;
   width: 100%;
   margin: 0 auto;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refresh__button {
+  padding: 0.5em;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid #143b3a;
+  box-shadow: rgba(100, 100, 111, 1) 2px 2px 0px 0px;
+}
+
+.refresh__button:active {
+  background-color: rgba(147, 249, 143, 0.86);
+  color: #fff;
+  filter: none;
+  opacity: 1;
 }
 
 .filter__selector {
@@ -248,7 +466,7 @@ option {
 }
 .pixel-corners {
   border: 4px solid transparent !important;
-  z-index: 3 !important;
+  z-index: 0 !important;
 }
 .pixel-corners--wrapper {
   width: fit-content;
@@ -555,6 +773,7 @@ option {
 }
 
 #result {
+  opacity: 0;
   position: absolute;
   top: 4em;
   left: 1em;
@@ -564,6 +783,7 @@ option {
   border-radius: 8px;
   color: #ccc;
 }
+
 #result ul {
   list-style-type: none;
   padding: 0;
