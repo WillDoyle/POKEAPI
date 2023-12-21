@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PokeWizard</title>
+    <title>Pikapedia</title>
 
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="./assets/pokeball.svg"
+      href="./assets/vector pokeball pixelated-svg.svg"
     />
 
     <link rel="stylesheet" href="style.css" />
@@ -23,9 +23,13 @@
       <nav>
         <div class="site__logo">
           <a class="home__link" href="index.html">
-            <img class="logo" src="./assets/pokeball-logo.png" alt="" />
+            <img
+              class="logo"
+              src="./assets/vector pokeball pixelated-svg.svg"
+              alt=""
+            />
 
-            <h2 class="logo__text">PokeWizard</h2>
+            <h2 class="logo__text">Pikapedia</h2>
           </a>
         </div>
 
@@ -48,5 +52,34 @@
         </ul>
       </nav>
     </header>
+    <section id="landing">
+      <div class="container">
+        <div class="row">
+          <h1 class="landing__h1">Hi, <br />Start a search</h1>
+        </div>
+      </div>
+    </section>
   </body>
+
+  <style>
+    body {
+      background-color: #f6c708;
+    }
+
+    .container {
+      margin: 10em 3em;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .row {
+      text-align: left;
+    }
+
+    .landing__h1 {
+      font-size: 6em;
+      color: #560120;
+      font-family: "Open Sans";
+    }
+  </style>
 </html>

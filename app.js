@@ -2191,6 +2191,8 @@ async function updateRange() {
   // );
   value1.innerHTML = currentValue;
   value2.innerHTML = newValue;
+  console.log(currentValue);
+  console.log(newValue);
   removeAllPokemon();
   for (let i = currentValue; i <= newValue; i++) {
     const pokemonData = await getPokemonData(i); // Wait for the promise to be fulfilled
@@ -2201,9 +2203,11 @@ async function updateRange() {
 
     renderPokemon(pokemonData);
   }
+
   console.log(pokemonNames);
 
   results = pokemonNames;
+  pokemonNames = [];
 }
 // Function to update the input when a list item is clicked
 function updateInput(value) {

@@ -61,6 +61,9 @@ header {
 input[type="range"] {
   width: 200px;
   margin: 10px 0;
+
+  border-radius: 50px;
+  cursor: pointer;
 }
 
 .slider__header {
@@ -82,7 +85,7 @@ input[type="range"] {
   border: none;
   margin: 8px 0;
   padding: 8px;
-  font-weight: 600;
+  font-weight: 300;
   font-size: 1em;
   font-family: "Open Sans", sans-serif;
   color: #242424;
@@ -90,7 +93,7 @@ input[type="range"] {
 }
 
 .player__input::placeholder {
-  color: #242424;
+  color: #ccc;
   font-weight: 300;
   font-size: 1em;
 }
@@ -142,13 +145,9 @@ nav {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  position: fixed;
+  position: absolute;
 
-  background: rgba(0, 0, 0, 0.749);
-  box-shadow: 0 0px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
 
   padding: 1em;
   z-index: 3;
@@ -186,27 +185,32 @@ a {
 }
 
 .nav__link--anchor {
-  color: #fff;
+  color: #000;
+  filter: invert(11%) sepia(42%) saturate(4475%) hue-rotate(319deg)
+    brightness(80%) contrast(110%);
 
-  font-weight: 700;
+  font-weight: 500;
   font-family: "Open Sans";
+  font-size: 1em;
 }
 
 .contact {
   background-color: #fff;
-  color: #242424;
+  color: #3a070c;
   padding: 1em 2em;
   border-radius: 50px;
-  font-size: 0.75em;
+  font-size: 0.85em;
+  filter: none;
+  font-weight: 600;
+
   transition: all 300ms ease-in-out;
-  box-shadow: 0 0 1px 1px #242424;
   overflow: hidden;
 }
 
 .contact:hover {
-  background-color: #242424;
+  background-color: #3a070c;
   color: #fff;
-  box-shadow: 0 0 1px 1px #fff;
+  box-shadow: 5px 5px #75232b;
   cursor: not-allowed;
 }
 
@@ -229,7 +233,9 @@ a {
   font-family: "Open Sans";
   font-weight: 600;
   font-size: 1.25em;
-  color: #fff;
+  color: #000;
+  filter: invert(11%) sepia(42%) saturate(4475%) hue-rotate(319deg)
+    brightness(80%) contrast(110%);
   margin: 0.5em;
 }
 
@@ -247,9 +253,9 @@ a {
 }
 
 .logo {
-  height: 50px;
-  width: 50px;
-  filter: invert();
+  height: 30px;
+  width: 30px;
+  color: #000;
 }
 
 .search__btn {
@@ -265,9 +271,18 @@ a {
   transition: all 300ms ease-in-out;
   align-self: right;
   cursor: pointer;
-  box-shadow: rgba(100, 100, 100, 0.4) 0px 7px 29px 0px;
+  box-shadow: rgba(100, 100, 100, 0.2) 0px 7px 29px 0px;
 }
 
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search__icon {
+  width: 20px;
+  filter: brightness(30%) opacity(50%);
+}
 .search__btn .fa-solid {
   color: #242424;
 }
@@ -291,11 +306,13 @@ a {
   z-index: -1;
 
   overflow: hidden;
+  background-color: #f6c708;
 }
 
 .background {
   width: 100%;
   filter: brightness(70%) blur(3px);
+  background-color: #f6c708;
   background-size: cover;
 }
 

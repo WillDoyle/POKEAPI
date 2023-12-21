@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PokeWizard</title>
+    <title>Pikapedia</title>
     <link rel="stylesheet" href="style.css" />
 
     
     <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="./assets/pokeball.svg"
-    />
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="./assets/vector pokeball pixelated-svg.svg"
+  />
 
     <script
       src="https://kit.fontawesome.com/5082f4a3a0.js"
@@ -24,10 +24,10 @@
       <nav>
         <div class="site__logo">
           <a class="home__link" href="index.html">
-          <img class="logo" src="./assets/pokeball-logo.png" alt="">
+          <img class="logo" src="./assets/vector pokeball pixelated-svg.svg" alt="">
           
        
-        <h2 class="logo__text">PokeWizard</h2>
+        <h2 class="logo__text">Pikapedia</h2>
       </a>
         </div>
 
@@ -41,6 +41,9 @@
         <!-- <h1 class="pokemon__header">Search pokemon</h1> -->
       
         <form autocomplete="off" class="searchbar__wrapper" onsubmit="searchPokemon(event)">
+          <div class="search">
+            <img src="./assets/pokeball-logo.png" class="search__icon" alt="">
+
           <input
             class="player__input"
             type="text"
@@ -51,14 +54,16 @@
             onKeyUp="showResults(this.value)"
             
           />
+          
           <div id="result"></div>
+          </div>
           <button class="btn search__btn" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <img src="./assets/magnifying-glass.svg" alt="">
           </button>
         </form>
       </div>
       <div class="header__background">
-        <img class="background" src="./assets/header banner.jpg" alt="">
+        <!-- <img class="background" src="./assets/header banner.jpg" alt=""> -->
       </div>
 
     </header>
