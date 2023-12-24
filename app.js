@@ -4,6 +4,8 @@ const pokemonImgDiv = document.querySelector(".pokemon__img--wrapper");
 const pokemonImage = document.querySelector(".pokemon__img");
 const pokemonIDDiv = document.querySelector(".pokemon__id");
 const statsWrapper = document.querySelector(".stats__wrapper");
+const loadingSpinner = document.querySelector(".loading--spinner");
+
 let errorWrapper;
 
 let results;
@@ -2193,21 +2195,33 @@ async function updateRange() {
   value2.innerHTML = newValue;
   console.log(currentValue);
   console.log(newValue);
+
   removeAllPokemon();
+
+  console.log(loadingSpinner);
+  loadingSpinner.classList.toggle("spin");
   for (let i = currentValue; i <= newValue; i++) {
     const pokemonData = await getPokemonData(i); // Wait for the promise to be fulfilled
-    pokemonNames.push({
-      name: pokemonData.name,
-      url: `https://pokeapi.co/api/v2/pokemon/${pokemonData.id}/`,
-    });
-
-    renderPokemon(pokemonData);
+    pokemonNames.push(`https://pokeapi.co/api/v2/pokemon/${pokemonData.id}/`);
   }
 
   console.log(pokemonNames);
 
   results = pokemonNames;
+  fetchAPI();
   pokemonNames = [];
+}
+
+async function fetchAPI() {
+  const data = await Promise.all(
+    pokemonNames.map((url) => fetch(url).then((response) => response.json()))
+  );
+  console.log(data);
+
+  data.map((pokemonData) => {
+    renderPokemon(pokemonData);
+  });
+  loadingSpinner.classList.toggle("spin");
 }
 // Function to update the input when a list item is clicked
 function updateInput(value) {

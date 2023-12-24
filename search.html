@@ -6,103 +6,123 @@
     <title>Pikapedia</title>
     <link rel="stylesheet" href="style.css" />
 
-    
     <link
-    rel="shortcut icon"
-    type="image/x-icon"
-    href="./assets/vector pokeball pixelated-svg.svg"
-  />
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="./assets/vector pokeball pixelated-svg.svg"
+    />
 
     <script
       src="https://kit.fontawesome.com/5082f4a3a0.js"
       crossorigin="anonymous"
     ></script>
-    
   </head>
   <body>
     <header>
       <nav>
         <div class="site__logo">
           <a class="home__link" href="index.html">
-          <img class="logo" src="./assets/vector pokeball pixelated-svg.svg" alt="">
-          
-       
-        <h2 class="logo__text">Pikapedia</h2>
-      </a>
+            <img
+              class="logo"
+              src="./assets/vector pokeball pixelated-svg.svg"
+              alt=""
+            />
+
+            <h2 class="logo__text">Pikapedia</h2>
+          </a>
         </div>
 
         <ul class="nav__links">
-          <li class="nav__link"><a class="nav__link--anchor link__hover-effect" href="index.html">Home</a></li>
-          <li class="nav__link"><a class="nav__link--anchor link__hover-effect" href="/search.html#q">Search</a></li>
-          <li class="nav__link"><a class="nav__link--anchor contact "href="">CONTACT</a></li>
+          <li class="nav__link">
+            <a class="nav__link--anchor link__hover-effect" href="index.html"
+              >Home</a
+            >
+          </li>
+          <li class="nav__link">
+            <a
+              class="nav__link--anchor link__hover-effect"
+              href="/search.html#q"
+              >Search</a
+            >
+          </li>
+          <li class="nav__link">
+            <a class="nav__link--anchor contact" href="">CONTACT</a>
+          </li>
         </ul>
       </nav>
       <div class="search__wrapper">
         <!-- <h1 class="pokemon__header">Search pokemon</h1> -->
-      
-        <form autocomplete="off" class="searchbar__wrapper" onsubmit="searchPokemon(event)">
-          <div class="search">
-            <img src="./assets/pokeball-logo.png" class="search__icon" alt="">
 
-          <input
-            class="player__input"
-            type="text"
-            name="q"
-            id="q"
-            placeholder="Search for pokemon"
-            contenteditable="true"
-            onKeyUp="showResults(this.value)"
-            
-          />
-          
-          <div id="result"></div>
+        <form
+          autocomplete="off"
+          class="searchbar__wrapper"
+          onsubmit="searchPokemon(event)"
+        >
+          <div class="search">
+            <img src="./assets/pokeball-logo.png" class="search__icon" alt="" />
+
+            <input
+              class="player__input"
+              type="text"
+              name="q"
+              id="q"
+              placeholder="Search for pokemon"
+              contenteditable="true"
+              onKeyUp="showResults(this.value)"
+            />
+
+            <div id="result"></div>
           </div>
           <button class="btn search__btn" type="submit">
-            <img src="./assets/magnifying-glass.svg" alt="">
+            <img src="./assets/magnifying-glass.svg" alt="" />
           </button>
         </form>
       </div>
       <div class="header__background">
         <!-- <img class="background" src="./assets/header banner.jpg" alt=""> -->
       </div>
-
     </header>
 
     <div class="filter__wrapper">
-
       <div class="filter">
-      <h4>Sort by</h4>
-    <select class="filter__selector" name="" id="filter" onchange="filterPokemon(event)">
-      <option disabled>-- Select filter --</option>
-      <option value="LOW_TO_HIGH">Lowest Number</option>
-      <option value="HIGH_TO_LOW">Highest Number</option>
-      <option value="A-Z">A-Z</option>
-      <option value="Z-A">Z-A</option>
-    </select>
-  
-    <div class="slider__wrapper">
-      <input onmouseup="updateRange()" 
-      ontouchend="updateRange()" type="range" id="singleRange" min="0" max="1017" value="0">
-    <div class="slider__header">
-      <h3 class="slider__h3" id="value1">0</h3>
-      <h3 class="slider__h3" id="value2">60</h3>
+        <h4>Sort by</h4>
+        <select
+          class="filter__selector"
+          name=""
+          id="filter"
+          onchange="filterPokemon(event)"
+        >
+          <option disabled>-- Select filter --</option>
+          <option value="LOW_TO_HIGH">Lowest Number</option>
+          <option value="HIGH_TO_LOW">Highest Number</option>
+          <option value="A-Z">A-Z</option>
+          <option value="Z-A">Z-A</option>
+        </select>
+
+        <div class="slider__wrapper">
+          <input
+            onmouseup="updateRange()"
+            ontouchend="updateRange()"
+            type="range"
+            id="singleRange"
+            min="0"
+            max="1017"
+            value="0"
+          />
+          <div class="slider__header">
+            <h3 class="slider__h3" id="value1">0</h3>
+            <h3 class="slider__h3" id="value2">60</h3>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="refreshResults()" class="refresh__button">
+        <i class="fa-solid fa-arrows-rotate"></i>
+      </button>
     </div>
-    </div>
-  </div>
 
-    
-    
-
-    <button onclick="refreshResults()" class="refresh__button">
-      <i class="fa-solid fa-arrows-rotate"></i>
-    </button>
-
-  </div>
-
-
-    <div class="pokedex" id="pokedex">
-    </div>
-      <!-- <div class="pokemon__wrapper">
+    <div class="pokedex" id="pokedex"></div>
+    <!-- <div class="pokemon__wrapper">
         <div class="pokemon__img--wrapper pixel-corners--wrapper">
           <div class="pokemon__img"></div>
         </div>
@@ -110,9 +130,8 @@
         <div class="pokemon__name"></div>
         <div class="type__wrapper">
           <div class="pokemon__type--wrapper"></div> -->
-        
 
-        <!-- <h1 class="category__header">STATS</h1>
+    <!-- <h1 class="category__header">STATS</h1>
         <div class="stats__wrapper">
           <div class="stats__item hp" data-stat="HP"></div>
           <div class="stats__item attack" data-stat="ATK"></div>
@@ -122,8 +141,10 @@
           <div class="stats__item speed" data-stat="SPD"></div>
         </div>
       </div> -->
+    <div class="loading--spinner">
+      <img class="spinner__img" src="./assets/pokeball.svg" alt="" />
+      <h1>Loading...</h1>
     </div>
-    
   </body>
 
   <script defer src="app.js"></script>
