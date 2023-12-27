@@ -144,6 +144,12 @@ function renderPokemon(data) {
   pokemonNameDiv.innerHTML = `<h1 class="pokemon__header">${pokemonNameCapital}</h1>`;
   pokemonWrapper.appendChild(pokemonNameDiv);
 
+  //Pokemon button
+  const pokemonButton = document.createElement("button");
+  pokemonButton.setAttribute("onClick", "pokemonClicked(event)");
+  pokemonButton.classList.add("pokemon__button");
+  pokemonWrapper.appendChild(pokemonButton);
+
   // Pokemon Img
   const pokemonImg = data.sprites.front_default;
   const pokemonImgDiv = document.createElement("div");
@@ -2209,6 +2215,14 @@ async function updateRange() {
   results = pokemonNames;
   fetchAPI();
   pokemonNames = [];
+}
+
+function pokemonClicked(event) {
+  let parent = event.target.parentNode;
+  var text = parent.querySelector(".pokemon__id.pokemon__id");
+  var pokemonId = text.textContent.trim().slice(1);
+
+  console.log(pokemonId);
 }
 
 async function fetchAPI() {
