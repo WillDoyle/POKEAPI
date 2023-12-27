@@ -2201,8 +2201,7 @@ async function updateRange() {
   console.log(loadingSpinner);
   loadingSpinner.classList.toggle("spin");
   for (let i = currentValue; i <= newValue; i++) {
-    const pokemonData = await getPokemonData(i); // Wait for the promise to be fulfilled
-    pokemonNames.push(`https://pokeapi.co/api/v2/pokemon/${pokemonData.id}/`);
+    pokemonNames.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
   }
 
   console.log(pokemonNames);
