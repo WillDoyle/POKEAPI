@@ -214,18 +214,8 @@ function sortPokemonBackwardsAlphabetically(results) {
 }
 
 async function sortPokemonById(results, order) {
-  console.log(results);
-  // For each pokemon in the list, get its id, search for it using its id and return the result in a const  const promises = results.map(async (pokemon) => {
-  const pokemonDataArray = await Promise.all(
-    results.map((item) =>
-      fetch(`https://pokeapi.co/api/v2/pokemon/${item.id}`).then((response) =>
-        response.json()
-      )
-    )
-  );
-
   // Sort the array based on "id"
-  const sortedPokemonList = pokemonDataArray.sort((a, b) => {
+  const sortedPokemonList = results.sort((a, b) => {
     if (order === "asc") {
       return a.id - b.id;
     } else {
@@ -2195,12 +2185,12 @@ async function updateRange() {
   console.log(loadingSpinner);
   loadingSpinner.classList.toggle("spin");
   pokedexContainer.classList.toggle("no__width");
+  pokemonNames = [];
   for (let i = currentValue; i <= newValue; i++) {
     pokemonNames.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
   }
 
   console.log(pokemonNames);
-
   results = pokemonNames;
   fetchAPI();
   pokemonNames = [];
