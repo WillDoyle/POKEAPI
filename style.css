@@ -350,6 +350,10 @@ a {
   transition: all 300ms ease-in-out;
 }
 
+.pokemon__wrapper:hover {
+  background-color: #fff70023;
+}
+
 .filter__wrapper {
   display: flex;
   align-items: center;
@@ -411,11 +415,13 @@ a {
   width: 100%;
   justify-content: space-around;
   padding: 0em 1em;
+  transition: all 300ms ease-in-out;
 }
 
 .selected__wrapper .pokemon__type--wrapper {
   justify-content: space-around;
   padding: 0em 5em;
+  transition: all 300ms ease-in-out;
 }
 
 .type__wrapper {
@@ -435,6 +441,7 @@ a {
   justify-content: center;
   border-radius: 24px;
   transform: scale(1.4);
+  transition: all 300ms ease-in-out;
 }
 
 .pokemon__id {
@@ -445,6 +452,7 @@ a {
 .pokemon__img--wrapper {
   overflow: hidden;
   margin: 0em 2em;
+  transition: all 300ms ease-in-out;
 
   /* background-color: yellow; */
 }
@@ -459,6 +467,7 @@ a {
   justify-content: center;
   color: #242424;
   margin: 1em 0em;
+  transition: all 300ms ease-in-out;
 }
 
 option {
@@ -837,6 +846,7 @@ option {
   width: 100%;
   height: 100%;
   border-radius: 15px;
+  cursor: pointer;
 }
 
 .pokemon__button:active {
