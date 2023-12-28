@@ -16,6 +16,11 @@
       src="https://kit.fontawesome.com/5082f4a3a0.js"
       crossorigin="anonymous"
     ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
   </head>
   <body>
     <header>
@@ -74,13 +79,15 @@
             <div id="result"></div>
           </div>
           <button class="btn search__btn" type="submit">
-            <img src="./assets/magnifying-glass.svg" alt="" />
+            <span class="material-symbols-outlined brown"> search </span>
           </button>
         </form>
       </div>
       <div class="header__background">
         <!-- <img class="background" src="./assets/header banner.jpg" alt=""> -->
       </div>
+
+      <img class="background" src="./assets/pokeball.svg" alt="" />
     </header>
 
     <div class="filter__wrapper">
@@ -117,7 +124,7 @@
       </div>
 
       <button onclick="refreshResults()" class="refresh__button">
-        <i class="fa-solid fa-arrows-rotate"></i>
+        <span class="material-symbols-outlined white"> refresh </span>
       </button>
     </div>
 
@@ -132,16 +139,6 @@
         <div class="type__wrapper">
           <div class="pokemon__type--wrapper"></div> -->
 
-      <!-- <h1 class="category__header">STATS</h1>
-        <div class="stats__wrapper">
-          <div class="stats__item hp" data-stat="HP"></div>
-          <div class="stats__item attack" data-stat="ATK"></div>
-          <div class="stats__item defense" data-stat="DEF"></div>
-          <div class="stats__item sa" data-stat="SpA"></div>
-          <div class="stats__item sd" data-stat="SpD"></div>
-          <div class="stats__item speed" data-stat="SPD"></div>
-        </div>
-      </div> -->
       <div class="loading--spinner">
         <img class="spinner__img" src="./assets/pokeball.svg" alt="" />
         <h1>Loading...</h1>
@@ -149,6 +146,8 @@
 
       <div class="selected__wrapper">
         <div class="selected__pokemon"></div>
+
+        <h1 class="category__header"></h1>
       </div>
     </div>
   </body>

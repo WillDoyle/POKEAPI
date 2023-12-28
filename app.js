@@ -5,6 +5,7 @@ const pokemonImage = document.querySelector(".pokemon__img");
 const pokemonIDDiv = document.querySelector(".pokemon__id");
 const statsWrapper = document.querySelector(".stats__wrapper");
 const loadingSpinner = document.querySelector(".loading--spinner");
+const selectedPokemon = document.querySelector(".selected__pokemon");
 
 let errorWrapper;
 
@@ -80,19 +81,17 @@ function extractPokemonId(url) {
 
 //Gets list of 21 pokemon, called on page load
 async function getPokemonList() {
-  const apiURL = `https://pokeapi.co/api/v2/pokemon/?limit=21`;
+  for (let i = 1; i < 22; i++) {
+    pokemonNames.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
+  }
 
+  console.log(pokemonNames);
   try {
-    const response = await fetch(apiURL);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    results = data.results;
-    console.log(results);
-    return data.results;
+    const data = await Promise.all(
+      pokemonNames.map((url) => fetch(url).then((response) => response.json()))
+    );
+    results = data;
+    return data;
   } catch (error) {
     console.error("Fetch Error:", error);
     console.log("ERROR");
@@ -121,11 +120,9 @@ async function getPokemonData(pokemonId) {
 }
 
 async function renderPokemonList(pokemonList) {
-  for (const pokemon of pokemonList) {
-    const pokemonId = extractPokemonId(pokemon.url);
-    const pokemonData = await getPokemonData(pokemonId); // Wait for the promise to be fulfilled
-    renderPokemon(pokemonData);
-  }
+  pokemonList.forEach((pokemon) => {
+    renderPokemon(pokemon);
+  });
 }
 
 function renderPokemon(data) {
@@ -167,28 +164,15 @@ function renderPokemon(data) {
   pokemonIDDiv.innerHTML = `<h1 class="pokemon__id">#${pokemonID}</h1>`;
   pokemonWrapper.appendChild(pokemonIDDiv);
 
-  // Pokemon Types
-  const pokemonTypeWrapperDiv = document.createElement("div");
-  pokemonTypeWrapperDiv.classList.add("pokemon__type--wrapper");
-  const typeNames = data.types.map((type) => type.type.name);
-  typeNames.forEach((typeName) => {
-    const typeVar = typeStyleMap[typeName] || ""; // Use typeStyleMap from your existing code
-    pokemonTypeWrapperDiv.innerHTML += `<h1 class="type__style ${typeVar}">${typeName.toUpperCase()}</h1>`;
-  });
-  pokemonWrapper.appendChild(pokemonTypeWrapperDiv);
-
-  // // Stats
-  // const statsWrapper = document.createElement("div");
-  // statsWrapper.classList.add("stats__wrapper");
-  // const statLabels = ["HP", "ATK", "DEF", "SpA", "SpD", "SPD"];
-  // for (let i = 0; i < statLabels.length; i++) {
-  //   const statDiv = document.createElement("div");
-  //   statDiv.classList.add(`stats__item`, statLabels[i].toLowerCase());
-  //   statDiv.setAttribute("data-stat", statLabels[i]);
-  //   statDiv.innerHTML = `${data.stats[i].base_stat}`;
-  //   statsWrapper.appendChild(statDiv);
-  // }
-  // pokemonWrapper.appendChild(statsWrapper);
+  // // Pokemon Types
+  // const pokemonTypeWrapperDiv = document.createElement("div");
+  // pokemonTypeWrapperDiv.classList.add("pokemon__type--wrapper");
+  // const typeNames = data.types.map((type) => type.type.name);
+  // typeNames.forEach((typeName) => {
+  //   const typeVar = typeStyleMap[typeName] || ""; // Use typeStyleMap from your existing code
+  //   pokemonTypeWrapperDiv.innerHTML += `<h1 class="type__style ${typeVar}">${typeName.toUpperCase()}</h1>`;
+  // });
+  // pokemonWrapper.appendChild(pokemonTypeWrapperDiv);
 
   // Append the new pokemonWrapper to the pokedexContainer
   pokedexContainer.appendChild(pokemonWrapper);
@@ -203,9 +187,9 @@ function removeAllPokemon() {
   });
 }
 
-function sortPokemonAlphabetically(pokemonList) {
+function sortPokemonAlphabetically(results) {
   // Create a shallow copy of the array before sorting
-  const copy = [...pokemonList];
+  const copy = [...results];
 
   return copy.sort((a, b) => {
     const nameA = a.name.toUpperCase();
@@ -216,6 +200,10 @@ function sortPokemonAlphabetically(pokemonList) {
 
 function sortPokemonBackwardsAlphabetically(results) {
   // Create a shallow copy of the array before sorting
+
+  // const copy = await Promise.all(results.map((item) => {
+  //   fetch(``)
+  // }));
   const copy = [...results];
 
   return copy.sort((b, a) => {
@@ -226,17 +214,15 @@ function sortPokemonBackwardsAlphabetically(results) {
 }
 
 async function sortPokemonById(results, order) {
-  // For each pokemon in the list, get its id, search for it using its id and return the result in a const
-  const promises = results.map(async (pokemon) => {
-    const pokemonId = extractPokemonId(pokemon.url);
-    const pokemonData = await getPokemonData(pokemonId);
-
-    return pokemonData;
-  });
-
-  //Wait for all pokemon to be added to the list
-
-  const pokemonDataArray = await Promise.all(promises);
+  console.log(results);
+  // For each pokemon in the list, get its id, search for it using its id and return the result in a const  const promises = results.map(async (pokemon) => {
+  const pokemonDataArray = await Promise.all(
+    results.map((item) =>
+      fetch(`https://pokeapi.co/api/v2/pokemon/${item.id}`).then((response) =>
+        response.json()
+      )
+    )
+  );
 
   // Sort the array based on "id"
   const sortedPokemonList = pokemonDataArray.sort((a, b) => {
@@ -252,6 +238,7 @@ async function sortPokemonById(results, order) {
 
 async function filterPokemon(event) {
   removeAllPokemon();
+
   const sort = event.target.value;
 
   //Get pokemon list value
@@ -268,15 +255,16 @@ async function filterPokemon(event) {
     renderPokemonList(sortedPokemonList);
   } else if (sort === "LOW_TO_HIGH") {
     // For each pokemon in the list (default is low to high id value order)
+
+    const sortedPokemonList = await sortPokemonById(results, "asc");
     console.log(results);
 
-    for (const pokemon of results) {
-      const pokemonId = extractPokemonId(pokemon.url);
-      const pokemonData = await getPokemonData(pokemonId); // Wait for the promise to be fulfilled
-      renderPokemon(pokemonData);
+    for (const pokemon of sortedPokemonList) {
+      renderPokemon(pokemon);
     }
   } else if (sort === "HIGH_TO_LOW") {
     //Call sort pokemon by id and await data from getPokemonList()
+
     const sortedPokemonList = await sortPokemonById(results, "desc");
     console.log(results);
 
@@ -2217,23 +2205,137 @@ async function updateRange() {
   pokemonNames = [];
 }
 
-function pokemonClicked(event) {
+async function pokemonClicked(event) {
+  const pokemonWrapper = document.querySelectorAll(".pokemon__wrapper");
+
   let parent = event.target.parentNode;
+  pokemonWrapper.forEach((item) => {
+    item.classList.remove("clicked");
+  });
+
+  parent.classList.add("clicked");
+
   var text = parent.querySelector(".pokemon__id.pokemon__id");
   var pokemonId = text.textContent.trim().slice(1);
+  let pokemonTypeWrapperDiv = selectedPokemon.querySelector(
+    ".pokemon__type--wrapper"
+  );
 
-  console.log(pokemonId);
+  let statsWrapper = selectedPokemon.querySelector(".stats__wrapper");
+
+  if (statsWrapper) {
+    statsWrapper.innerHTML = "";
+  }
+
+  if (pokemonTypeWrapperDiv) {
+    pokemonTypeWrapperDiv.remove();
+  }
+
+  const data = await getPokemonData(pokemonId);
+  renderSelectedPokemon(data);
+}
+
+function renderSelectedPokemon(data) {
+  // Check if pokemon__name element already exists within selected__pokemon
+  let pokemonNameDiv = selectedPokemon.querySelector(".pokemon__name");
+  let pokemonImgDiv = selectedPokemon.querySelector(".pokemon__img--wrapper");
+  let pokemonIDDiv = selectedPokemon.querySelector(".pokemon__id");
+  let statsWrapper = selectedPokemon.querySelector(".stats__wrapper");
+  let statDiv = selectedPokemon.querySelector(".stats__item");
+  let typeNames = data.types.map((type) => type.type.name);
+
+  const statLabels = ["HP", "ATK", "DEF", "SpA", "SpD", "SPD"];
+
+  let pokemonTypeWrapperDiv = selectedPokemon.querySelector(
+    ".pokemon__type--wrapper"
+  );
+
+  const pokemonImg = data.sprites.front_default;
+
+  if (!pokemonNameDiv) {
+    pokemonNameDiv = document.createElement("div");
+    pokemonNameDiv.classList.add("pokemon__name");
+
+    selectedPokemon.appendChild(pokemonNameDiv);
+  }
+
+  // Pokemon Name
+  const pokemonName = data.name;
+  const pokemonNameCapital =
+    pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1);
+  pokemonNameDiv.innerHTML = `<h1 class="pokemon__header">${pokemonNameCapital}</h1>`;
+
+  // Pokemon Img
+
+  if (!pokemonImgDiv) {
+    pokemonImgDiv = document.createElement("div");
+    pokemonImgDiv.classList.add(
+      "pokemon__img--wrapper",
+      "pixel-corners--wrapper"
+    );
+
+    selectedPokemon.appendChild(pokemonImgDiv);
+  }
+
+  pokemonImgDiv.innerHTML = `<img class="pokemon__img pixel-corners" src="${pokemonImg}" />`;
+
+  if (!pokemonIDDiv) {
+    pokemonIDDiv = document.createElement("div");
+    pokemonIDDiv.classList.add("pokemon__id");
+  }
+  // Pokemon ID
+  const pokemonID = data.id;
+
+  pokemonIDDiv.innerHTML = `<h1 class="pokemon__id">#${pokemonID}</h1>`;
+  selectedPokemon.appendChild(pokemonIDDiv);
+
+  // Pokemon Types
+
+  if (!pokemonTypeWrapperDiv) {
+    pokemonTypeWrapperDiv = document.createElement("div");
+    pokemonTypeWrapperDiv.classList.add("pokemon__type--wrapper");
+    typeNames.forEach((typeName) => {
+      const typeVar = typeStyleMap[typeName] || ""; // Use typeStyleMap from your existing code
+      pokemonTypeWrapperDiv.innerHTML += `<h1 class="type__style ${typeVar}">${typeName.toUpperCase()}</h1>`;
+    });
+  }
+
+  selectedPokemon.appendChild(pokemonTypeWrapperDiv);
+
+  // Stats
+
+  if (!statsWrapper) {
+    statsWrapper = document.createElement("div");
+    statsWrapper.classList.add("stats__wrapper");
+  }
+
+  for (let i = 0; i < statLabels.length; i++) {
+    statDiv = document.createElement("div");
+
+    statDiv.classList.add(`stats__item`, statLabels[i].toLowerCase());
+    statDiv.setAttribute("data-stat", statLabels[i]);
+    statDiv.innerHTML = `${data.stats[i].base_stat}`;
+    statsWrapper.appendChild(statDiv);
+  }
+
+  selectedPokemon.appendChild(statsWrapper);
 }
 
 async function fetchAPI() {
   const data = await Promise.all(
     pokemonNames.map((url) => fetch(url).then((response) => response.json()))
   );
+
   console.log(data);
 
+  results = [];
   data.map((pokemonData) => {
     renderPokemon(pokemonData);
+    results.push(pokemonData);
   });
+
+  console.log(results);
+
   loadingSpinner.classList.toggle("spin");
 }
 // Function to update the input when a list item is clicked
