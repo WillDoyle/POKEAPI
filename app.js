@@ -2194,6 +2194,7 @@ async function updateRange() {
 
   console.log(loadingSpinner);
   loadingSpinner.classList.toggle("spin");
+  pokedexContainer.classList.toggle("no__width");
   for (let i = currentValue; i <= newValue; i++) {
     pokemonNames.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
   }
@@ -2337,6 +2338,7 @@ async function fetchAPI() {
   console.log(results);
 
   loadingSpinner.classList.toggle("spin");
+  pokedexContainer.classList.toggle("no__width");
 }
 // Function to update the input when a list item is clicked
 function updateInput(value) {
