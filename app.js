@@ -226,39 +226,33 @@ async function sortPokemonById(results, order) {
   return sortedPokemonList;
 }
 
-async function filterPokemon(event) {
+function toggleDropdown() {
+  const dropdown = document.getElementById("filterDropdown");
+  dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+}
+
+async function filterPokemon(sort) {
+  toggleDropdown(); // Hide the dropdown when an option is selected
+
   removeAllPokemon();
-
-  const sort = event.target.value;
-
-  //Get pokemon list value
 
   if (sort === "A-Z") {
     const sortedPokemonList = sortPokemonAlphabetically(results);
     console.log(results);
-
     renderPokemonList(sortedPokemonList);
   } else if (sort === "Z-A") {
     const sortedPokemonList = sortPokemonBackwardsAlphabetically(results);
     console.log(results);
-
     renderPokemonList(sortedPokemonList);
   } else if (sort === "LOW_TO_HIGH") {
-    // For each pokemon in the list (default is low to high id value order)
-
     const sortedPokemonList = await sortPokemonById(results, "asc");
     console.log(results);
-
     for (const pokemon of sortedPokemonList) {
       renderPokemon(pokemon);
     }
   } else if (sort === "HIGH_TO_LOW") {
-    //Call sort pokemon by id and await data from getPokemonList()
-
     const sortedPokemonList = await sortPokemonById(results, "desc");
     console.log(results);
-
-    //For each pokemon in the sorted list (high to low), render the pokemon
     for (const pokemon of sortedPokemonList) {
       renderPokemon(pokemon);
     }
@@ -266,6 +260,14 @@ async function filterPokemon(event) {
 }
 
 function searchPokemon(event) {
+  // Get the current URL path
+  var currentPath = window.location.pathname;
+
+  // Check if the current path is not "/search.html"
+  if (currentPath !== "/search.html") {
+    // Redirect to "/search.html"
+    window.location.href = "/search.html";
+  }
   removeAllPokemon();
   event.preventDefault();
   const userInput = event.target[0].value.toLowerCase();

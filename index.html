@@ -17,9 +17,14 @@
       src="https://kit.fontawesome.com/5082f4a3a0.js"
       crossorigin="anonymous"
     ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
   </head>
   <body>
-    <header>
+    <header class="default__header">
       <nav>
         <div class="site__logo">
           <a class="home__link" href="index.html">
@@ -55,11 +60,49 @@
     <section id="landing">
       <div class="container">
         <div class="row">
-          <h1 class="landing__h1">Hi, <br />Start a search</h1>
+          <h1 class="landing__h1">Hi,</h1>
+          <h1 class="landing__h1">Start a search</h1>
+
+          <div class="search__wrapper">
+            <!-- <h1 class="pokemon__header">Search pokemon</h1> -->
+
+            <form
+              autocomplete="off"
+              class="searchbar__wrapper"
+              onsubmit="searchPokemon(event)"
+            >
+              <div class="search">
+                <img
+                  src="./assets/pokeball-logo.png"
+                  class="search__icon"
+                  alt=""
+                />
+
+                <input
+                  class="player__input"
+                  type="text"
+                  name="q"
+                  id="q"
+                  placeholder="Search for pokemon"
+                  contenteditable="true"
+                  onKeyUp="showResults(this.value)"
+                />
+
+                <div id="result"></div>
+              </div>
+              <button class="btn search__btn" type="submit">
+                <span class="material-symbols-outlined brown"> search </span>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
+
+      <img src="./assets/pikachu-3d.svg" alt="" class="pikachu__model" />
+      <!-- <img class="background" src="./assets/pokeball.svg" alt="" /> -->
     </section>
   </body>
+  <script defer src="app.js"></script>
 
   <style>
     body {
@@ -67,19 +110,28 @@
     }
 
     .container {
-      margin: 10em 3em;
+      margin: 10em auto;
       width: 100%;
-      max-width: 800px;
+      max-width: 1200px;
     }
 
     .row {
       text-align: left;
+      flex-direction: column !important;
     }
 
     .landing__h1 {
       font-size: 6em;
+      opacity: 0;
       color: #560120;
-      font-family: "Open Sans";
+      font-family: "Poppins";
+      font-weight: 600;
+      z-index: 3;
+    }
+
+    .search__wrapper {
+      z-index: 3;
+      animation: 1s ease-out 1200ms 1 animateInLeft forwards;
     }
   </style>
 </html>
