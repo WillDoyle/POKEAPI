@@ -417,8 +417,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: auto;
-  margin: 0em 4em;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .filter {
