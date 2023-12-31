@@ -264,15 +264,15 @@ function searchPokemon(event) {
   var currentPath = window.location.pathname;
 
   // Check if the current path is not "/search.html"
-  if (currentPath !== "./search.html") {
+  if (currentPath !== "/search.html") {
     // Redirect to "/search.html"
     window.location.href = "./search.html";
   }
+
   removeAllPokemon();
   event.preventDefault();
   const userInput = event.target[0].value.toLowerCase();
   console.log(event);
-
   console.log(userInput);
 
   getPokemon(userInput);

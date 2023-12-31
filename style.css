@@ -1194,4 +1194,15 @@ footer {
   .pokemon__name {
     font-size: 0.75em;
   }
+
+  .nav__link {
+    background-color: #fff;
+    border-radius: 50px;
+    padding: 0.5em 1em;
+    margin: 0 0.5em;
+  }
+
+  .nav__link:nth-child(3) {
+    display: none;
+  }
 }
