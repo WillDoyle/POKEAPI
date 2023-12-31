@@ -44,6 +44,7 @@ html {
 body {
   background-color: #f2f2f2;
   overflow-x: hidden;
+  height: fit-content;
 }
 
 h1 {
@@ -1147,7 +1148,7 @@ footer {
   }
 
   .player__input::placeholder {
-    font-size: 1em;
+    font-size: 0.75em;
     padding: 0;
     margin: 0;
   }
