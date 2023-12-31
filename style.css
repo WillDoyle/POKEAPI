@@ -1098,6 +1098,13 @@ option {
   z-index: 3;
 }
 
+.pokemon__weight {
+  background-color: #242424;
+  color: #ffffffe1;
+  padding: 0.5em;
+  border-radius: 15px;
+}
+
 footer {
   display: flex;
   align-items: center;

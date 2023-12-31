@@ -2200,6 +2200,8 @@ async function updateRange() {
 
 async function pokemonClicked(event) {
   const pokemonWrapper = document.querySelectorAll(".pokemon__wrapper");
+  let pokemonWeightDiv = selectedPokemon.querySelector(".pokemon__weight");
+  let weightHeader = selectedPokemon.querySelector("h4");
 
   let parent = event.target.parentNode;
   pokemonWrapper.forEach((item) => {
@@ -2220,6 +2222,11 @@ async function pokemonClicked(event) {
     statsWrapper.innerHTML = "";
   }
 
+  if (pokemonWeightDiv) {
+    pokemonWeightDiv.remove();
+    weightHeader.remove();
+  }
+
   if (pokemonTypeWrapperDiv) {
     pokemonTypeWrapperDiv.remove();
   }
@@ -2229,13 +2236,16 @@ async function pokemonClicked(event) {
 }
 
 function renderSelectedPokemon(data) {
+  console.log(data);
   // Check if pokemon__name element already exists within selected__pokemon
   let pokemonNameDiv = selectedPokemon.querySelector(".pokemon__name");
   let pokemonImgDiv = selectedPokemon.querySelector(".pokemon__img--wrapper");
   let pokemonIDDiv = selectedPokemon.querySelector(".pokemon__id");
+  let pokemonWeightDiv = selectedPokemon.querySelector(".pokemon__weight");
   let statsWrapper = selectedPokemon.querySelector(".stats__wrapper");
   let statDiv = selectedPokemon.querySelector(".stats__item");
   let typeNames = data.types.map((type) => type.type.name);
+  let weight = data.weight;
 
   const statLabels = ["HP", "ATK", "DEF", "SpA", "SpD", "SPD"];
 
@@ -2312,6 +2322,16 @@ function renderSelectedPokemon(data) {
   }
 
   selectedPokemon.appendChild(statsWrapper);
+
+  if (!pokemonWeightDiv) {
+    pokemonWeightDiv = document.createElement("div");
+    pokemonWeightDiv.classList.add("pokemon__weight");
+    weightHeader = document.createElement("h4");
+    weightHeader.innerHTML = "Weight";
+    pokemonWeightDiv.innerHTML = `${weight}lbs`;
+    selectedPokemon.appendChild(weightHeader);
+    selectedPokemon.appendChild(pokemonWeightDiv);
+  }
 }
 
 async function fetchAPI() {
