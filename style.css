@@ -1088,10 +1088,110 @@ option {
   display: inline-block;
 }
 
-@media (max-width: 767px) {
+.landing__h1 {
+  font-size: 6em;
+  opacity: 0;
+  color: #560120;
+  font-family: "Poppins";
+  font-weight: 600;
+  z-index: 3;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1em;
+}
+
+.footer__text {
+  color: #560120;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+  font-size: 0.75em;
+}
+
+@media (max-width: 932px) {
+  #landing {
+    height: fit-content;
+  }
+  .landing__h1 {
+    position: relative;
+    margin: 0.25em 0em;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 600px) {
   .stats__item {
     width: calc(
       50% - 3em
     ); /* Adjusted width for smaller screens, showing two items per row */
+  }
+
+  .landing__h1 {
+    font-size: 4em;
+  }
+
+  .contact {
+    display: none;
+  }
+
+  .searchbar__wrapper {
+    width: 100%;
+    padding: 0.5em;
+  }
+
+  .search__wrapper {
+    margin: 0.5em;
+  }
+
+  .player__input::placeholder {
+    font-size: 1em;
+    padding: 0;
+    margin: 0;
+  }
+
+  .pikachu__model {
+    left: 30%;
+    transform: translate(-50%, -50%);
+  }
+
+  .pokedex {
+    width: 50%;
+  }
+
+  .selected__wrapper {
+    width: 50%;
+    padding: 0;
+    margin: 0.5em;
+  }
+
+  .selected__pokemon {
+    height: 80vh;
+  }
+
+  .pokemon__wrapper {
+    margin: 0.5em;
+  }
+
+  .filter__wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0.5em;
+    width: 100%;
+  }
+
+  .filter h4 {
+    font-size: 0.75em;
+  }
+
+  .filter__dropdown {
+    left: 35px;
+  }
+
+  .pokemon__name {
+    font-size: 0.75em;
   }
 }
