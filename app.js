@@ -36,7 +36,7 @@ const typeStyleMap = {
 };
 
 async function getPokemon(pokemonIdentifier) {
-  const apiURL = `https://pokeapi.co/api/v2/pokemon/${pokemonIdentifier}/`;
+  const apiURL = `https://pokeapi.co/api/v2/pokemon/${pokemonIdentifier.toLowerCase()}/`;
 
   try {
     const response = await fetch(apiURL);
@@ -263,10 +263,11 @@ function searchPokemon(event) {
   // Get the current URL path
   var currentPath = window.location.pathname;
 
+  const searchQuery = document.getElementById("q").value.trim();
   // Check if the current path is not "/search.html"
   if (currentPath !== "/search.html") {
     // Redirect to "/search.html"
-    window.location.href = "./search.html";
+    window.location.href = `search.html?q=${encodeURIComponent(searchQuery)}`;
   }
 
   removeAllPokemon();
@@ -279,13 +280,23 @@ function searchPokemon(event) {
 }
 
 function renderPokemonListOnLoad() {
-  getPokemonList()
-    .then((pokemonList) => {
-      renderPokemonList(pokemonList);
-    })
-    .catch((error) => {
-      console.error("Error fetching initial Pokemon list:", error);
-    });
+  if (window.location.pathname.includes("search.html")) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("q")) {
+      const searchQuery = urlParams.get("q");
+      console.log(`Search query is: ${searchQuery}`);
+      // You can now use the searchQuery for further processing, e.g., fetching and displaying search results
+      getPokemon(searchQuery);
+    } else {
+      getPokemonList()
+        .then((pokemonList) => {
+          renderPokemonList(pokemonList);
+        })
+        .catch((error) => {
+          console.error("Error fetching initial Pokemon list:", error);
+        });
+    }
+  }
 }
 
 var search_terms = [
