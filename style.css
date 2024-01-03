@@ -1183,12 +1183,32 @@ footer {
     margin: 0.5em;
   }
 
+  .filter__button {
+    font-size: 0.75em;
+    padding: 0.5em;
+  }
+
+  #singleRange {
+    width: 120px;
+  }
+
+  .refresh__button {
+    margin: 0em 0.5em;
+    width: 30px;
+    height: 30px;
+    font-size: 0.5em;
+  }
   .filter__wrapper {
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     margin: 0.5em;
-    width: 100%;
+    width: auto;
+  }
+
+  .selected__pokemon {
+    padding: 0;
+    width: auto;
   }
 
   .filter h4 {
@@ -1201,6 +1221,11 @@ footer {
 
   .pokemon__name {
     font-size: 0.75em;
+  }
+
+  .background {
+    right: 0px;
+    width: 100vw;
   }
 
   .nav__link {
