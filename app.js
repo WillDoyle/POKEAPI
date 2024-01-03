@@ -2210,6 +2210,7 @@ async function updateRange() {
 }
 
 async function pokemonClicked(event) {
+  selectedPokemon.innerHTML = "";
   const pokemonWrapper = document.querySelectorAll(".pokemon__wrapper");
   let pokemonWeightDiv = selectedPokemon.querySelector(".pokemon__weight");
   let weightHeader = selectedPokemon.querySelector("h4");

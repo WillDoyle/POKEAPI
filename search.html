@@ -88,53 +88,59 @@
       <img class="background" src="./assets/pokeball.svg" alt="" />
     </header>
 
-    <div class="filter__wrapper">
-      <div class="filter">
-        <h4 style="font-family: 'Poppins', san-serif">Sort by</h4>
-        <button class="filter__button" onclick="toggleDropdown()">
-          <span class="material-symbols-outlined filter__icon">
-            filter_alt
-          </span>
-          Select filter
-        </button>
-        <ul class="filter__dropdown" id="filterDropdown">
-          <li class="filter__item" onclick="filterPokemon('LOW_TO_HIGH')">
-            <span class="material-symbols-outlined filtered__icon"> sort </span
-            >Lowest Number
-          </li>
-          <li class="filter__item" onclick="filterPokemon('HIGH_TO_LOW')">
-            <span class="material-symbols-outlined filtered__icon"> sort </span>
-            Highest Number
-          </li>
-          <li class="filter__item" onclick="filterPokemon('A-Z')">A-Z</li>
-          <li class="filter__item" onclick="filterPokemon('Z-A')">Z-A</li>
-        </ul>
+    <div class="row">
+      <div class="filter__wrapper">
+        <div class="filter">
+          <h4 style="font-family: 'Poppins', san-serif; font-weight: 400">
+            Sort by
+          </h4>
+          <button class="filter__button" onclick="toggleDropdown()">
+            <span class="material-symbols-outlined filter__icon">
+              filter_alt
+            </span>
+            Select filter
+          </button>
+          <ul class="filter__dropdown" id="filterDropdown">
+            <li class="filter__item" onclick="filterPokemon('LOW_TO_HIGH')">
+              <span class="material-symbols-outlined filtered__icon">
+                sort </span
+              >Lowest Number
+            </li>
+            <li class="filter__item" onclick="filterPokemon('HIGH_TO_LOW')">
+              <span class="material-symbols-outlined filtered__icon">
+                sort
+              </span>
+              Highest Number
+            </li>
+            <li class="filter__item" onclick="filterPokemon('A-Z')">A-Z</li>
+            <li class="filter__item" onclick="filterPokemon('Z-A')">Z-A</li>
+          </ul>
 
-        <div class="slider__wrapper">
-          <input
-            onmouseup="updateRange()"
-            ontouchend="updateRange()"
-            type="range"
-            id="singleRange"
-            min="0"
-            max="1017"
-            value="0"
-          />
-          <div class="slider__header">
-            <h3 class="slider__h3" id="value1">0</h3>
-            <h3 class="slider__h3" id="value2">60</h3>
+          <div class="slider__wrapper">
+            <input
+              onmouseup="updateRange()"
+              ontouchend="updateRange()"
+              type="range"
+              id="singleRange"
+              min="0"
+              max="1017"
+              value="0"
+            />
+            <div class="slider__header">
+              <h3 class="slider__h3" id="value1">0</h3>
+              <h3 class="slider__h3" id="value2">60</h3>
+            </div>
           </div>
         </div>
+
+        <button onclick="refreshResults()" class="refresh__button">
+          <span class="material-symbols-outlined white"> refresh </span>
+        </button>
       </div>
 
-      <button onclick="refreshResults()" class="refresh__button">
-        <span class="material-symbols-outlined white"> refresh </span>
-      </button>
-    </div>
-
-    <div class="row">
-      <div class="pokedex" id="pokedex"></div>
-      <!-- <div class="pokemon__wrapper">
+      <div class="column">
+        <div class="pokedex" id="pokedex"></div>
+        <!-- <div class="pokemon__wrapper">
         <div class="pokemon__img--wrapper pixel-corners--wrapper">
           <div class="pokemon__img"></div>
         </div>
@@ -143,15 +149,16 @@
         <div class="type__wrapper">
           <div class="pokemon__type--wrapper"></div> -->
 
-      <div class="loading--spinner">
-        <img class="spinner__img" src="./assets/pokeball.svg" alt="" />
-        <h1>Loading...</h1>
-      </div>
+        <div class="loading--spinner">
+          <img class="spinner__img" src="./assets/pokeball.svg" alt="" />
+          <h1>Loading...</h1>
+        </div>
 
-      <div class="selected__wrapper">
-        <div class="selected__pokemon"></div>
+        <div class="selected__wrapper">
+          <div class="selected__pokemon">Click on any pokemon to see stats</div>
 
-        <h1 class="category__header"></h1>
+          <h1 class="category__header"></h1>
+        </div>
       </div>
     </div>
   </body>
